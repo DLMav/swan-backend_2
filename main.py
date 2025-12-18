@@ -146,6 +146,28 @@ def init_db():
         )
     """)
     
+    # Add missing columns to existing database (for upgrades)
+    try:
+        cursor.execute("ALTER TABLE leads ADD COLUMN source TEXT DEFAULT 'tracking'")
+    except:
+        pass
+    try:
+        cursor.execute("ALTER TABLE leads ADD COLUMN person_name TEXT")
+    except:
+        pass
+    try:
+        cursor.execute("ALTER TABLE leads ADD COLUMN person_email TEXT")
+    except:
+        pass
+    try:
+        cursor.execute("ALTER TABLE leads ADD COLUMN person_title TEXT")
+    except:
+        pass
+    try:
+        cursor.execute("ALTER TABLE leads ADD COLUMN person_linkedin TEXT")
+    except:
+        pass
+    
     conn.commit()
     conn.close()
     print("✅ Database initialized")
